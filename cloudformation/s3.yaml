@@ -1,0 +1,13 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: AWS CloudFormation template to create an S3 bucket for storing Lambda Layer contents.
+
+Resources:
+  LoggerExtensionBucket:
+    Type: AWS::S3::Bucket
+
+Outputs:
+  S3BucketName:
+    Description: "The name of the S3 bucket"
+    Value: !Ref LoggerExtensionBucket
+    Export:
+      Name: LoggerExtensionBucketName

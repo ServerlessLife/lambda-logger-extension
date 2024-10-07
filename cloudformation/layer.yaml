@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: AWS CloudFormation template to deploy a Lambda Layer for all Node.js versions using an existing S3 bucket.
+
+Resources:
+  LambdaLoggerExtensionLayer:
+    Type: AWS::Lambda::LayerVersion
+    Properties:
+      LayerName: lambda-logger-extension
+      Description: "Lambda Layer for logging extension"
+      Content:
+        S3Bucket: !ImportValue LoggerExtensionBucketName
+        S3Key: extension.zip
+      CompatibleRuntimes:
+        - nodejs
+      LicenseInfo: "Apache-2.0"
+      CompatibleArchitectures:
+        - x86_64
+        - arm64
+Outputs:
+  LambdaLayerARN:
+    Description: "ARN of the Lambda Layer"
+    Value: !Ref LambdaLoggerExtensionLayer
