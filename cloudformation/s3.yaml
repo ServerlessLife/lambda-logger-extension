@@ -4,6 +4,13 @@ Description: AWS CloudFormation template to create an S3 bucket for storing Lamb
 Resources:
   LoggerExtensionBucket:
     Type: AWS::S3::Bucket
+    Properties:
+      LifecycleConfiguration:
+        Rules:
+          - Id: ExpireObjects
+            Status: Enabled
+            ExpirationInDays: 1
+            NoncurrentVersionExpirationInDays: 1
 
 Outputs:
   S3BucketName:

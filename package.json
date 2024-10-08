@@ -19,8 +19,7 @@
     "deploy-s3": "aws cloudformation deploy --stack-name lambda-logger-extension-bucket --template-file cloudformation/s3.yaml",
     "bundle-extension": "rm -rf dist && esbuild --sourcemap --bundle --format=cjs --platform=node --sourcemap ./src/interceptor.ts --outdir=./dist/nodejs/node_modules && cp ./src/logger ./dist/ && cd dist && zip -r extension.zip .",
     "copy-to-s3": "./cloudformation/copy-to-s3.sh",
-    "deploy-layer": "aws cloudformation deploy --stack-name lambda-logger-extension --template-file cloudformation/layer.yaml",
-    "deploy-extension": "npm run bundle-extension && npm run copy-to-s3 && npm run deploy-layer",
+    "deploy-extension": "npm run bundle-extension && npm run copy-to-s3 ",
     "deppoy-full": "npm run deploy-s3 && npm run deploy-extension"
   },
   "devDependencies": {

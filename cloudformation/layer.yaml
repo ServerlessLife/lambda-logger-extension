@@ -1,6 +1,11 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: AWS CloudFormation template to deploy a Lambda Layer for all Node.js versions using an existing S3 bucket.
 
+Parameters:
+  S3Key:
+    Type: String
+    Description: "S3 key (filename) for the Lambda layer zip file."
+
 Resources:
   LambdaLoggerExtensionLayer:
     Type: AWS::Lambda::LayerVersion
@@ -9,7 +14,7 @@ Resources:
       Description: "Lambda Layer for logging extension"
       Content:
         S3Bucket: !ImportValue LoggerExtensionBucketName
-        S3Key: extension.zip
+        S3Key: !Ref S3Key
       CompatibleRuntimes:
         - nodejs
       LicenseInfo: "Apache-2.0"
