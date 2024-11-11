@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Lambda Layer for logging extension
+
+Parameters:
+  S3Key:
+    Type: String
+    Description: "S3 key (filename) for the Lambda layer zip file."
+
+Resources:
+  LambdaLoggerExtensionLayer:
+    Type: AWS::Lambda::LayerVersion
+    Properties:
+      LayerName: lambda-logger-extension
+      Description: "Lambda Layer for logging extension"
+      Content:
+        S3Bucket: !ImportValue LoggerExtensionBucketName
+        S3Key: !Ref S3Key
+      CompatibleRuntimes:
+        - nodejs
+      LicenseInfo: "Apache-2.0"
+      CompatibleArchitectures:
+        - x86_64
+        - arm64
+
+  LambdaLayerPublicPermission:
+    Type: AWS::Lambda::LayerVersionPermission
+    Properties:
+      LayerVersionArn: !Ref LambdaLoggerExtensionLayer
+      Principal: "*"
+      Action: "lambda:GetLayerVersion"
+
+Outputs:
+  LambdaLayerARN:
+    Description: "ARN of the Lambda Layer"
+    Value: !Ref LambdaLoggerExtensionLayer

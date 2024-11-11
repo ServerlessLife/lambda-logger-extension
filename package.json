@@ -1,0 +1,34 @@
+{
+  "name": "lambda-logger-extension",
+  "version": "0.0.1",
+  "description": "Lambda Extension that adds logs to already deployed Lambda",
+  "license": "MPL-2.0",
+  "author": {
+    "name": "Marko (ServerlessLife.com)",
+    "email": "marko@serverlesslife.com",
+    "organization": false
+  },
+  "keywords": [
+    "aws",
+    "lambda",
+    "log",
+    "logger",
+    "cloud-development"
+  ],
+  "scripts": {
+    "deploy-s3": "aws cloudformation deploy --stack-name lambda-logger-extension-bucket --template-file cloudformation/s3.yaml",
+    "bundle-extension": "rm -rf dist && esbuild --sourcemap --bundle --format=cjs --platform=node --sourcemap ./src/logger.ts --outdir=./dist/nodejs/node_modules && cp ./src/logger ./dist/ && cd dist && zip -r extension.zip .",
+    "copy-to-s3": "./cloudformation/copy-to-s3.sh",
+    "deploy-extension": "npm run bundle-extension && npm run copy-to-s3 ",
+    "deploy": "npm run deploy-s3 && npm run deploy-extension",
+    "deploy-all-regions": "./deploy.sh"
+  },
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.4",
+    "@types/node": "^20.11.16"
+  },
+  "dependencies": {
+    "esbuild": "^0.20.1",
+    "typescript": "~5.4.3"
+  }
+}
